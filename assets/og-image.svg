@@ -1,0 +1,134 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#030303"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EAB308"/>
+      <stop offset="100%" stop-color="#FACC15"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22D3EE"/>
+      <stop offset="100%" stop-color="#67E8F9"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.05">
+    <line x1="0" y1="0" x2="0" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="60" y1="0" x2="60" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="120" y1="0" x2="120" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="180" y1="0" x2="180" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="240" y1="0" x2="240" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="360" y1="0" x2="360" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="420" y1="0" x2="420" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="480" y1="0" x2="480" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="540" y1="0" x2="540" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="660" y1="0" x2="660" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="720" y1="0" x2="720" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="780" y1="0" x2="780" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="840" y1="0" x2="840" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="900" y1="0" x2="900" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="960" y1="0" x2="960" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="1020" y1="0" x2="1020" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="1080" y1="0" x2="1080" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="1140" y1="0" x2="1140" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="1200" y1="0" x2="1200" y2="630" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="60" x2="1200" y2="60" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="120" x2="1200" y2="120" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="180" x2="1200" y2="180" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="240" x2="1200" y2="240" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="300" x2="1200" y2="300" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="360" x2="1200" y2="360" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="420" x2="1200" y2="420" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="480" x2="1200" y2="480" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="540" x2="1200" y2="540" stroke="#EAB308" stroke-width="1"/>
+    <line x1="0" y1="600" x2="1200" y2="600" stroke="#EAB308" stroke-width="1"/>
+  </g>
+
+  <!-- Particle network decoration -->
+  <g opacity="0.3" filter="url(#glow)">
+    <!-- Particles -->
+    <circle cx="100" cy="100" r="3" fill="#EAB308"/>
+    <circle cx="200" cy="150" r="2" fill="#22D3EE"/>
+    <circle cx="150" cy="250" r="2.5" fill="#EAB308"/>
+    <circle cx="80" cy="400" r="2" fill="#22D3EE"/>
+    <circle cx="180" cy="500" r="3" fill="#EAB308"/>
+
+    <circle cx="1100" cy="130" r="3" fill="#22D3EE"/>
+    <circle cx="1000" cy="200" r="2" fill="#EAB308"/>
+    <circle cx="1050" cy="350" r="2.5" fill="#22D3EE"/>
+    <circle cx="1120" cy="480" r="2" fill="#EAB308"/>
+    <circle cx="1020" cy="550" r="3" fill="#22D3EE"/>
+
+    <!-- Connections -->
+    <line x1="100" y1="100" x2="200" y2="150" stroke="#EAB308" stroke-width="1" opacity="0.4"/>
+    <line x1="200" y1="150" x2="150" y2="250" stroke="#22D3EE" stroke-width="1" opacity="0.4"/>
+    <line x1="150" y1="250" x2="80" y2="400" stroke="#EAB308" stroke-width="1" opacity="0.3"/>
+    <line x1="80" y1="400" x2="180" y2="500" stroke="#22D3EE" stroke-width="1" opacity="0.4"/>
+
+    <line x1="1100" y1="130" x2="1000" y2="200" stroke="#22D3EE" stroke-width="1" opacity="0.4"/>
+    <line x1="1000" y1="200" x2="1050" y2="350" stroke="#EAB308" stroke-width="1" opacity="0.4"/>
+    <line x1="1050" y1="350" x2="1120" y2="480" stroke="#22D3EE" stroke-width="1" opacity="0.3"/>
+    <line x1="1120" y1="480" x2="1020" y2="550" stroke="#EAB308" stroke-width="1" opacity="0.4"/>
+  </g>
+
+  <!-- Glow orbs -->
+  <ellipse cx="200" cy="315" rx="150" ry="150" fill="#EAB308" opacity="0.08" filter="url(#glowStrong)"/>
+  <ellipse cx="1000" cy="315" rx="150" ry="150" fill="#22D3EE" opacity="0.06" filter="url(#glowStrong)"/>
+
+  <!-- Logo -->
+  <g transform="translate(540, 180)">
+    <path d="M48 96 A64 64 0 0 1 96 48" fill="none" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+    <path d="M96 48 A64 64 0 0 1 144 96" fill="none" stroke="url(#cyanGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+    <path d="M144 96 A64 64 0 0 1 96 144" fill="none" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+    <path d="M96 144 A64 64 0 0 1 48 96" fill="none" stroke="url(#cyanGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+    <circle cx="96" cy="96" r="24" fill="url(#goldGrad)" filter="url(#glow)"/>
+    <path d="M84 96 L92 104 L108 88" fill="none" stroke="#030303" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Text -->
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="800" fill="#fafafa">
+    <tspan>Where </tspan>
+    <tspan fill="url(#goldGrad)">Proof</tspan>
+    <tspan> is Born</tspan>
+  </text>
+
+  <text x="600" y="460" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#a3a3a3">
+    Quantum-proof AI decision verification
+  </text>
+
+  <!-- Tech badges -->
+  <g transform="translate(380, 520)">
+    <rect x="0" y="0" width="120" height="36" rx="6" fill="#111111" stroke="#333333" stroke-width="1"/>
+    <text x="60" y="24" text-anchor="middle" font-family="monospace" font-size="14" fill="#EAB308">ML-DSA-65</text>
+  </g>
+  <g transform="translate(540, 520)">
+    <rect x="0" y="0" width="120" height="36" rx="6" fill="#111111" stroke="#333333" stroke-width="1"/>
+    <text x="60" y="24" text-anchor="middle" font-family="monospace" font-size="14" fill="#fafafa">SHA-256</text>
+  </g>
+  <g transform="translate(700, 520)">
+    <rect x="0" y="0" width="120" height="36" rx="6" fill="#111111" stroke="#333333" stroke-width="1"/>
+    <text x="60" y="24" text-anchor="middle" font-family="monospace" font-size="14" fill="#22D3EE">BTC</text>
+  </g>
+</svg>

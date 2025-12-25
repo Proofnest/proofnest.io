@@ -1,0 +1,50 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-main" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Hexagonal nest base -->
+  <polygon
+    points="32,4 56,18 56,46 32,60 8,46 8,18"
+    fill="none"
+    stroke="url(#grad-main)"
+    stroke-width="2"/>
+
+  <!-- Inner hexagon -->
+  <polygon
+    points="32,14 46,23 46,41 32,50 18,41 18,23"
+    fill="none"
+    stroke="url(#grad-main)"
+    stroke-width="1.5"
+    opacity="0.5"/>
+
+  <!-- Connection lines from vertices to center -->
+  <line x1="32" y1="4" x2="32" y2="32" stroke="url(#grad-amber)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="56" y1="46" x2="32" y2="32" stroke="url(#grad-emerald)" stroke-width="1.5" opacity="0.6"/>
+  <line x1="8" y1="46" x2="32" y2="32" stroke="#8b5cf6" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Vertex nodes -->
+  <circle cx="32" cy="4" r="4" fill="url(#grad-amber)"/>
+  <circle cx="56" cy="18" r="3" fill="url(#grad-amber)" opacity="0.7"/>
+  <circle cx="56" cy="46" r="4" fill="url(#grad-emerald)"/>
+  <circle cx="32" cy="60" r="3" fill="url(#grad-emerald)" opacity="0.7"/>
+  <circle cx="8" cy="46" r="4" fill="#8b5cf6"/>
+  <circle cx="8" cy="18" r="3" fill="#8b5cf6" opacity="0.7"/>
+
+  <!-- Center core with gradient fill -->
+  <circle cx="32" cy="32" r="10" fill="url(#grad-main)"/>
+  <circle cx="32" cy="32" r="5" fill="#000"/>
+  <circle cx="32" cy="32" r="2" fill="url(#grad-main)"/>
+</svg>

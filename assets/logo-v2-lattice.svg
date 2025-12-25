@@ -1,0 +1,41 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="amber-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="emerald-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Quantum Lattice: Hexagonal grid pattern -->
+  <!-- Central hexagon -->
+  <polygon
+    points="32,12 46,22 46,42 32,52 18,42 18,22"
+    fill="none"
+    stroke="url(#amber-grad)"
+    stroke-width="2"
+    stroke-linejoin="round"/>
+
+  <!-- Outer partial hexagons for depth -->
+  <path d="M32 4 L50 16" fill="none" stroke="url(#amber-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M50 16 L50 32" fill="none" stroke="url(#amber-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M14 16 L32 4" fill="none" stroke="url(#amber-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M14 32 L14 16" fill="none" stroke="url(#amber-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M32 60 L14 48" fill="none" stroke="url(#amber-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M50 48 L32 60" fill="none" stroke="url(#amber-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Intersection nodes - proof points -->
+  <circle cx="32" cy="12" r="3" fill="url(#emerald-grad)"/>
+  <circle cx="46" cy="22" r="3" fill="url(#emerald-grad)"/>
+  <circle cx="46" cy="42" r="3" fill="url(#emerald-grad)"/>
+  <circle cx="32" cy="52" r="3" fill="url(#emerald-grad)"/>
+  <circle cx="18" cy="42" r="3" fill="url(#emerald-grad)"/>
+  <circle cx="18" cy="22" r="3" fill="url(#emerald-grad)"/>
+
+  <!-- Central core -->
+  <circle cx="32" cy="32" r="6" fill="url(#amber-grad)"/>
+  <circle cx="32" cy="32" r="3" fill="#8b5cf6"/>
+</svg>

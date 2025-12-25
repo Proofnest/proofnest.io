@@ -1,0 +1,46 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="e" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="main" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Angular Matrix: Interlocking angular lines forming nest pattern -->
+
+  <!-- Primary angular frame -->
+  <path
+    d="M32 8 L52 20 L52 44 L32 56 L12 44 L12 20 Z"
+    fill="none"
+    stroke="url(#main)"
+    stroke-width="2.5"
+    stroke-linejoin="bevel"/>
+
+  <!-- Inner angular connections -->
+  <path d="M32 8 L32 24" stroke="url(#a)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M52 20 L40 28" stroke="url(#a)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M52 44 L40 36" stroke="url(#e)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M32 56 L32 40" stroke="url(#e)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 44 L24 36" stroke="url(#e)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 20 L24 28" stroke="url(#a)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Inner angular nest -->
+  <path
+    d="M32 24 L40 28 L40 36 L32 40 L24 36 L24 28 Z"
+    fill="none"
+    stroke="url(#main)"
+    stroke-width="2"
+    stroke-linejoin="bevel"/>
+
+  <!-- Core -->
+  <circle cx="32" cy="32" r="4" fill="#8b5cf6"/>
+</svg>

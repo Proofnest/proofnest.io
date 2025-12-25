@@ -1,0 +1,42 @@
+<svg viewBox="0 0 280 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fcd34d"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Symbol -->
+  <g transform="translate(8, 8)">
+    <!-- Outer ring -->
+    <circle cx="24" cy="24" r="22" fill="none" stroke="url(#brand)" stroke-width="2.5"/>
+
+    <!-- Inner arcs -->
+    <path d="M24 6 A18 18 0 0 1 42 24" fill="none" stroke="url(#amber)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M42 24 A18 18 0 0 1 24 42" fill="none" stroke="url(#brand)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M24 42 A18 18 0 0 1 6 24" fill="none" stroke="url(#emerald)" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Three proof nodes -->
+    <circle cx="24" cy="6" r="4" fill="url(#amber)"/>
+    <circle cx="42" cy="36" r="4" fill="url(#emerald)"/>
+    <circle cx="6" cy="36" r="4" fill="#8b5cf6"/>
+
+    <!-- Center core -->
+    <circle cx="24" cy="24" r="6" fill="url(#brand)"/>
+    <circle cx="24" cy="24" r="3" fill="#000"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="72" y="42" font-family="Inter, system-ui, sans-serif" font-size="26" font-weight="700" letter-spacing="-0.02em" fill="#fafafa">
+    PROOFNEST
+  </text>
+</svg>

@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ProofNest - Quantum-Proof AI Decision Verification</title>
+    <meta name="description" content="Verifiable AI decisions with quantum-proof signatures, Bitcoin anchoring, and tamper detection. EU AI Act compliant. Open source.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ProofNest - Quantum-Proof AI Decision Verification">
+    <meta property="og:description" content="Make AI decisions verifiable. Quantum-proof signatures, Bitcoin anchoring, tamper detection.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://proofnest.io">
+    <meta property="og:image" content="https://proofnest.io/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ProofNest - Quantum-Proof AI Verification">
+    <meta name="twitter:description" content="Verifiable AI decisions. Bitcoin-anchored. Tamper-evident.">
+    <meta name="twitter:image" content="https://proofnest.io/assets/og-image.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://proofnest.io">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+    <!-- Fonts: loaded after cookie consent for GDPR compliance -->
+    <!-- System fonts used as fallback until consent given -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #030303;
+            --surface: #0a0a0a;
+            --surface-2: #111111;
+            --gold: #EAB308;
+            --gold-light: #FACC15;
+            --gold-glow: rgba(234, 179, 8, 0.4);
+            --cyan: #22D3EE;
+            --cyan-light: #67E8F9;
+            --cyan-glow: rgba(34, 211, 238, 0.4);
+            --text: #fafafa;
+            --text-dim: #a3a3a3;
+            --text-muted: #737373;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            body { cursor: none; }
+            a, button { cursor: none; }
+        }
+
+        /* ============================================
+           LOADER - HONEST (no fake progress)
+        ============================================ */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader.ready {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            width: 64px;
+            height: 64px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.7; }
+        }
+
+        .loader-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+        }
+
+        /* ============================================
+           CURSOR (desktop only)
+        ============================================ */
+        .cursor, .cursor-dot { display: none; }
+
+        @media (hover: hover) and (pointer: fine) {
+            .cursor {
+                display: block;
+                position: fixed;
+                width: 32px;
+                height: 32px;
+                border: 1px solid var(--gold);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 99998;
+                transform: translate(-50%, -50%);
+                transition: width 0.2s, height 0.2s, background 0.2s;
+                opacity: 0.7;
+            }
+            .cursor-dot {
+                display: block;
+                position: fixed;
+                width: 5px;
+                height: 5px;
+                background: var(--cyan);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 99999;
+                transform: translate(-50%, -50%);
+            }
+            .cursor.hover {
+                width: 48px;
+                height: 48px;
+                background: rgba(234, 179, 8, 0.15);
+            }
+        }
+
+        /* ============================================
+           BACKGROUND - GAME-LIKE PARTICLES
+        ============================================ */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--cyan-glow), transparent 70%);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+            top: 50%;
+            right: 10%;
+            animation-delay: -14s;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Particle field */
+        #particles {
+            position: absolute;
+            inset: 0;
+        }
+
+        /* Grid lines */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(234, 179, 8, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(234, 179, 8, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-logo svg {
+            width: 32px;
+            height: 32px;
+            filter: drop-shadow(0 0 10px var(--gold-glow));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-link:hover { color: var(--gold); }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.2s;
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        /* Mobile menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: var(--bg);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 20px;
+            z-index: 999;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mobile-nav.active { display: flex; }
+
+        .mobile-nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .menu-toggle { display: flex; }
+        }
+
+        /* ============================================
+           HERO
+        ============================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 80px;
+            z-index: 2;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 10vw, 110px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 24px;
+        }
+
+        .hero-line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+        }
+
+        .loaded .hero-word {
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .loaded .hero-line:nth-child(1) .hero-word:nth-child(1) { animation-delay: 0.1s; }
+        .loaded .hero-line:nth-child(1) .hero-word:nth-child(2) { animation-delay: 0.2s; }
+        .loaded .hero-line:nth-child(2) .hero-word { animation-delay: 0.3s; }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--gold), var(--cyan));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px var(--gold-glow));
+        }
+
+        .loaded .gradient-text {
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards,
+                       gradientShift 6s ease infinite 1s;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--text-dim);
+            max-width: 550px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            opacity: 0;
+        }
+
+        .loaded .hero-subtitle {
+            animation: fadeIn 0.8s ease 0.5s forwards;
+        }
+
+        .hero-origin {
+            margin-bottom: 32px;
+            opacity: 0;
+        }
+
+        .loaded .hero-origin {
+            animation: fadeIn 0.8s ease 0.7s forwards;
+        }
+
+        .hero-origin span {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            background: rgba(234, 179, 8, 0.08);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-origin span:hover {
+            background: rgba(234, 179, 8, 0.12);
+            border-color: rgba(234, 179, 8, 0.4);
+            color: var(--gold);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 36px;
+            background: transparent;
+            border: 1px solid var(--gold);
+            border-radius: 100px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transition: color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 0 20px transparent;
+        }
+
+        .loaded .hero-cta {
+            animation: fadeIn 0.8s ease 0.6s forwards;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .hero-cta:hover {
+            color: var(--bg);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .hero-cta:hover::before { transform: translateY(0); }
+
+        .hero-cta svg { transition: transform 0.3s; }
+        .hero-cta:hover svg { transform: translateX(4px); }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+        }
+
+        .loaded .scroll-indicator {
+            animation: fadeIn 1s ease 1s forwards;
+        }
+
+        .scroll-indicator span {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.5; transform: scaleY(0.7); }
+        }
+
+        /* ============================================
+           MARQUEE
+        ============================================ */
+        .marquee-section {
+            padding: 28px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+        }
+
+        .marquee {
+            display: flex;
+            gap: 50px;
+            animation: scroll 25s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .marquee { animation: none; }
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .marquee-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ============================================
+           FEATURES
+        ============================================ */
+        .features-section {
+            position: relative;
+            padding: 120px 40px;
+            z-index: 2;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            padding: 28px;
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-4px);
+            border-color: rgba(234, 179, 8, 0.3);
+            box-shadow: 0 10px 40px -10px var(--gold-glow);
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(234, 179, 8, 0.1);
+            border-radius: 10px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+
+        .feature-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--gold);
+        }
+
+        .feature-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           CODE DEMO - REAL PYTHON API
+        ============================================ */
+        .demo-section {
+            position: relative;
+            padding: 60px 40px 120px;
+            z-index: 2;
+        }
+
+        .demo-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .terminal {
+            background: rgba(10, 10, 10, 0.9);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .terminal-dot.red { background: #ff5f57; }
+        .terminal-dot.yellow { background: #febc2e; }
+        .terminal-dot.green { background: #28c840; }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .terminal-body {
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .t-line { margin-bottom: 2px; }
+        .t-comment { color: #6b7280; }
+        .t-prompt { color: var(--cyan); }
+        .t-keyword { color: #c084fc; }
+        .t-string { color: #4ade80; }
+        .t-success { color: #4ade80; }
+        .t-error { color: #ef4444; }
+
+        .t-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: var(--gold);
+            vertical-align: middle;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ============================================
+           STATS - HONEST VERSION
+        ============================================ */
+        .stats-section {
+            position: relative;
+            padding: 80px 40px;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: clamp(36px, 7vw, 64px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-value.gold {
+            color: var(--gold);
+            text-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        .stat-value.cyan {
+            color: var(--cyan);
+            text-shadow: 0 0 40px var(--cyan-glow);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           CTA
+        ============================================ */
+        .cta-section {
+            position: relative;
+            padding: 100px 40px;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 12px;
+        }
+
+        .cta-subtitle {
+            font-size: 15px;
+            color: var(--text-dim);
+            margin-bottom: 28px;
+        }
+
+        .cta-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: var(--surface);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+
+        .cta-box code { color: var(--gold); }
+
+        .copy-btn {
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: 6px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--gold);
+            color: var(--bg);
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            position: relative;
+            padding: 32px 40px;
+            z-index: 2;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .footer-logo svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--text); }
+
+        .footer-signature {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .footer-signature a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-signature a:hover { color: var(--gold); }
+
+        .footer-footnote {
+            max-width: 1100px;
+            margin: 20px auto 0;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Cookie Consent Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface-2);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 24px;
+            z-index: 99998;
+            display: none;
+            animation: slideUpBanner 0.3s ease;
+        }
+
+        .cookie-banner.show { display: block; }
+
+        @keyframes slideUpBanner {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .cookie-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cookie-text {
+            flex: 1;
+            min-width: 280px;
+            font-size: 13px;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .cookie-text a {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+
+        .cookie-btn-accept {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .cookie-btn-accept:hover {
+            background: var(--gold-light);
+        }
+
+        .cookie-btn-decline {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .cookie-btn-decline:hover {
+            border-color: rgba(255,255,255,0.4);
+            color: var(--text);
+        }
+
+        @media (max-width: 600px) {
+            .cookie-inner { flex-direction: column; text-align: center; }
+            .cookie-buttons { width: 100%; justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .hero, .features-section, .demo-section, .stats-section, .cta-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .features-grid { grid-template-columns: 1fr; }
+            .stats-grid { flex-direction: column; gap: 24px; }
+            footer { padding: 24px 20px; }
+            .footer-inner {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            .footer-links { gap: 16px; }
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background: var(--gold);
+            color: var(--bg);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            border-radius: 0 0 8px 8px;
+            z-index: 100000;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: none;
+        }
+
+        /* Focus styles for keyboard navigation */
+        *:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        .feature:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+            border-color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content for accessibility -->
+    <a href="#features" class="skip-link">Skip to content</a>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <svg class="loader-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#EAB308"/>
+                    <stop offset="100%" stop-color="#FACC15"/>
+                </linearGradient>
+                <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#22D3EE"/>
+                    <stop offset="100%" stop-color="#67E8F9"/>
+                </linearGradient>
+            </defs>
+            <path d="M12 32 A20 20 0 0 1 32 12" fill="none" stroke="url(#lg1)" stroke-width="5" stroke-linecap="round"/>
+            <path d="M32 12 A20 20 0 0 1 52 32" fill="none" stroke="url(#lg2)" stroke-width="5" stroke-linecap="round"/>
+            <path d="M52 32 A20 20 0 0 1 32 52" fill="none" stroke="url(#lg1)" stroke-width="5" stroke-linecap="round"/>
+            <path d="M32 52 A20 20 0 0 1 12 32" fill="none" stroke="url(#lg2)" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="8" fill="url(#lg1)"/>
+            <path d="M28 32 L31 35 L37 29" fill="none" stroke="#030303" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="loader-text">PROOFNEST</div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Background -->
+    <div class="bg-container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Nav -->
+    <nav>
+        <a href="/" class="nav-logo">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#EAB308"/>
+                        <stop offset="100%" stop-color="#FACC15"/>
+                    </linearGradient>
+                    <linearGradient id="ng2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#22D3EE"/>
+                        <stop offset="100%" stop-color="#67E8F9"/>
+                    </linearGradient>
+                </defs>
+                <path d="M12 32 A20 20 0 0 1 32 12" fill="none" stroke="url(#ng1)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M32 12 A20 20 0 0 1 52 32" fill="none" stroke="url(#ng2)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M52 32 A20 20 0 0 1 32 52" fill="none" stroke="url(#ng1)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M32 52 A20 20 0 0 1 12 32" fill="none" stroke="url(#ng2)" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="32" cy="32" r="8" fill="url(#ng1)"/>
+                <path d="M28 32 L31 35 L37 29" fill="none" stroke="#030303" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>PROOFNEST</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features" class="nav-link">Features</a>
+            <a href="https://pypi.org/project/proofnest/" class="nav-link" target="_blank" rel="noopener">PyPI</a>
+            <a href="https://github.com/Proofnest/proofnest#readme" class="nav-link" target="_blank" rel="noopener">Docs</a>
+            <a href="https://github.com/Proofnest/proofnest" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
+        <a href="#features">Features</a>
+        <a href="https://pypi.org/project/proofnest/" target="_blank" rel="noopener">PyPI</a>
+        <a href="https://github.com/Proofnest/proofnest#readme" target="_blank" rel="noopener">Documentation</a>
+        <a href="https://github.com/Proofnest/proofnest" target="_blank" rel="noopener">GitHub</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-line">
+                    <span class="hero-word">Where </span>
+                    <span class="hero-word gradient-text">Proof</span>
+                </span>
+                <span class="hero-line">
+                    <span class="hero-word">is Born</span>
+                </span>
+            </h1>
+            <p class="hero-subtitle">
+                Verifiable AI decisions with quantum-proof signatures,
+                Bitcoin anchoring, and tamper detection. Open source.
+            </p>
+            <div class="hero-origin">
+                <span>Built by AI. For AI.</span>
+            </div>
+            <a href="#install" class="hero-cta">
+                <span>Get Started</span>
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <section class="marquee-section" aria-hidden="true">
+        <div class="marquee">
+            <div class="marquee-item"><span class="marquee-dot"></span>Quantum-Proof Signatures</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Bitcoin Anchoring</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Tamper Detection</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Audit Trail</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Agent Identity</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>ProofBundles</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Open Source</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Quantum-Proof Signatures</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Bitcoin Anchoring</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Tamper Detection</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Audit Trail</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Agent Identity</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>ProofBundles</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Open Source</div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <div class="section-label">Why ProofNest</div>
+            <h2 class="section-title">Trust Infrastructure<br>for AI Agents</h2>
+        </div>
+        <div class="features-grid">
+            <article class="feature">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Quantum-Proof* Security</h3>
+                <p class="feature-desc">Dilithium3 signatures (NIST ML-DSA-65) protect decisions against future quantum attacks.</p>
+            </article>
+            <article class="feature">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Bitcoin Anchored</h3>
+                <p class="feature-desc">High-risk decisions are timestamped to Bitcoin via OpenTimestamps. Immutable proof.</p>
+            </article>
+            <article class="feature">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Tamper-Evident</h3>
+                <p class="feature-desc">Hash chains detect any modification. One bit changed = caught.</p>
+            </article>
+            <article class="feature">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Agent Identity</h3>
+                <p class="feature-desc">Every agent gets a DID. Cryptographic proof of authorship for every decision.</p>
+            </article>
+            <article class="feature">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Compliance-Ready</h3>
+                <p class="feature-desc">Export structured audit trails for regulators. Supports EU AI Act Article 12 requirements.</p>
+            </article>
+            <article class="feature">
+                <div class="feature-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                </div>
+                <h3 class="feature-title">ProofBundles</h3>
+                <p class="feature-desc">Export portable proof packages. Verify anywhere, even offline.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Code Demo - REAL PYTHON API -->
+    <section class="demo-section">
+        <div class="demo-wrapper">
+            <div class="terminal" role="img" aria-label="Python code example">
+                <div class="terminal-header">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                    <div class="terminal-title">python</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="t-line"><span class="t-comment"># Install: pip install proofnest</span></div>
+                    <div class="t-line"><span class="t-keyword">from</span> proofnest <span class="t-keyword">import</span> ProofNest</div>
+                    <div class="t-line">&nbsp;</div>
+                    <div class="t-line"><span class="t-comment"># Create verifiable decision</span></div>
+                    <div class="t-line">pn = ProofNest()</div>
+                    <div class="t-line">decision = pn.log_decision(</div>
+                    <div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;action=<span class="t-string">"Approved"</span>,</div>
+                    <div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;risk_level=<span class="t-string">"HIGH"</span></div>
+                    <div class="t-line">)</div>
+                    <div class="t-line">&nbsp;</div>
+                    <div class="t-line"><span class="t-comment"># Verify chain integrity</span></div>
+                    <div class="t-line">result = pn.verify()</div>
+                    <div class="t-line"><span class="t-success"># True - chain intact</span><span class="t-cursor"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats - HONEST (no fake numbers) -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat">
+                <div class="stat-value gold">ML-DSA-65</div>
+                <div class="stat-label">Quantum-Proof*</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">SHA-256</div>
+                <div class="stat-label">Hash Chain</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value cyan">BTC</div>
+                <div class="stat-label">Anchored</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="install">
+        <h2 class="cta-title">Start <span class="gradient-text">Verifying</span></h2>
+        <p class="cta-subtitle">One command. Quantum-proof trust.</p>
+        <div class="cta-box">
+            <code>pip install proofnest</code>
+            <button class="copy-btn" onclick="copyInstall()" aria-label="Copy">Copy</button>
+        </div>
+    </section>
+
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+        <div class="cookie-inner">
+            <p class="cookie-text">
+                We use cookies to analyze site traffic and improve your experience.
+                <a href="/privacy">Privacy Policy</a>
+            </p>
+            <div class="cookie-buttons">
+                <button class="cookie-btn cookie-btn-decline" id="cookieDecline">Decline</button>
+                <button class="cookie-btn cookie-btn-accept" id="cookieAccept">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <a href="/" class="footer-logo">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#EAB308"/>
+                            <stop offset="100%" stop-color="#FACC15"/>
+                        </linearGradient>
+                        <linearGradient id="fg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#22D3EE"/>
+                            <stop offset="100%" stop-color="#67E8F9"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 32 A20 20 0 0 1 32 12" fill="none" stroke="url(#fg1)" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M32 12 A20 20 0 0 1 52 32" fill="none" stroke="url(#fg2)" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M52 32 A20 20 0 0 1 32 52" fill="none" stroke="url(#fg1)" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M32 52 A20 20 0 0 1 12 32" fill="none" stroke="url(#fg2)" stroke-width="5" stroke-linecap="round"/>
+                    <circle cx="32" cy="32" r="8" fill="url(#fg1)"/>
+                </svg>
+                <span>ProofNest</span>
+            </a>
+            <div class="footer-links">
+                <a href="https://github.com/Proofnest/proofnest" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://pypi.org/project/proofnest/" target="_blank" rel="noopener">PyPI</a>
+                <a href="/privacy">Privacy</a>
+                <a href="#" id="manageCookies">Cookies</a>
+            </div>
+            <div class="footer-signature">
+                <span>&copy; 2025</span>
+                <a href="https://stellanium.io" target="_blank" rel="noopener"><strong>Stellanium Ltd</strong></a>
+            </div>
+        </div>
+        <div class="footer-footnote">
+            *Quantum-Proof: Uses NIST ML-DSA-65 (Dilithium3), a post-quantum cryptographic standard. No algorithm is mathematically proven quantum-safe; this refers to quantum-resistant design.
+            <br><a href="mailto:admin@stellanium.io" style="color: var(--text-muted);">admin@stellanium.io</a>
+        </div>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('ready');
+                document.body.classList.add('loaded');
+            }, 600);
+        });
+
+        // Mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+        });
+
+        // Global mouse position (for cursor and particles)
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Cursor (desktop only)
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            const cursor = document.getElementById('cursor');
+            const cursorDot = document.getElementById('cursorDot');
+            let cursorX = 0, cursorY = 0;
+
+            document.addEventListener('mousemove', e => {
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+            });
+
+            (function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.12;
+                cursorY += (mouseY - cursorY) * 0.12;
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                requestAnimationFrame(animateCursor);
+            })();
+
+            document.querySelectorAll('a, button, .feature').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // Particles (desktop only, respects reduced motion)
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        if (!prefersReducedMotion && !isMobile) {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function initParticles() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                particles = [];
+                const count = Math.min(80, Math.floor(window.innerWidth / 20));
+
+                for (let i = 0; i < count; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        size: Math.random() * 3 + 1,
+                        speedX: (Math.random() - 0.5) * 0.5,
+                        speedY: (Math.random() - 0.5) * 0.5,
+                        color: Math.random() > 0.5 ? '#EAB308' : '#22D3EE',
+                        glow: Math.random() > 0.5 ? 'rgba(234, 179, 8, 0.8)' : 'rgba(34, 211, 238, 0.8)',
+                        opacity: Math.random() * 0.6 + 0.3
+                    });
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw connections first (behind particles)
+                particles.forEach((p1, i) => {
+                    particles.slice(i + 1).forEach(p2 => {
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 150) {
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = p1.color;
+                            ctx.globalAlpha = (150 - dist) / 150 * 0.2;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    });
+                });
+                ctx.globalAlpha = 1;
+
+                // Update and draw particles with glow
+                particles.forEach(p => {
+                    // Mouse attraction
+                    const dx = mouseX - p.x;
+                    const dy = mouseY - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 200 && dist > 0) {
+                        const force = (200 - dist) / 200 * 0.12;
+                        p.x += dx * force;
+                        p.y += dy * force;
+                    }
+
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    // Draw star with radial gradient and glow
+                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
+                    gradient.addColorStop(0, p.color);
+                    gradient.addColorStop(0.1, p.color);
+                    gradient.addColorStop(0.4, p.glow);
+                    gradient.addColorStop(1, 'transparent');
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.globalAlpha = p.opacity;
+                    ctx.fill();
+
+                    // Bright core
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 0.5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.globalAlpha = p.opacity * 0.8;
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(animateParticles);
+            }
+
+            initParticles();
+            animateParticles();
+            window.addEventListener('resize', initParticles);
+        }
+
+        // Copy
+        function copyInstall() {
+            navigator.clipboard.writeText('pip install proofnest').then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                // Close mobile menu
+                mobileNav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // Cookie Consent & Analytics (GDPR compliant)
+        const COOKIE_CONSENT_KEY = 'proofnest_cookie_consent';
+        const cookieBanner = document.getElementById('cookieBanner');
+        const cookieAccept = document.getElementById('cookieAccept');
+        const cookieDecline = document.getElementById('cookieDecline');
+
+        function getConsent() {
+            return localStorage.getItem(COOKIE_CONSENT_KEY);
+        }
+
+        function setConsent(value) {
+            localStorage.setItem(COOKIE_CONSENT_KEY, value);
+        }
+
+        function loadGoogleFonts() {
+            // Load fonts only after consent (GDPR compliant)
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap';
+            document.head.appendChild(link);
+        }
+
+        function loadGoogleAnalytics() {
+            // GA4 Measurement ID
+            const GA_ID = 'G-JE76GQ4KCH';
+
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+            document.head.appendChild(script);
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', GA_ID, {
+                'anonymize_ip': true,  // GDPR: anonymize IP
+                'cookie_flags': 'SameSite=None;Secure'
+            });
+        }
+
+        function handleCookieConsent() {
+            const consent = getConsent();
+
+            if (consent === null) {
+                // No consent yet, show banner
+                setTimeout(() => {
+                    cookieBanner.classList.add('show');
+                }, 1500);
+            } else if (consent === 'accepted') {
+                // User accepted, load fonts and analytics
+                loadGoogleFonts();
+                loadGoogleAnalytics();
+            }
+            // If declined, do nothing (no tracking, system fonts only)
+        }
+
+        cookieAccept.addEventListener('click', () => {
+            setConsent('accepted');
+            cookieBanner.classList.remove('show');
+            loadGoogleFonts();
+            loadGoogleAnalytics();
+        });
+
+        cookieDecline.addEventListener('click', () => {
+            setConsent('declined');
+            cookieBanner.classList.remove('show');
+        });
+
+        // Initialize cookie consent
+        handleCookieConsent();
+
+        // Manage cookies link
+        document.getElementById('manageCookies').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem(COOKIE_CONSENT_KEY);
+            cookieBanner.classList.add('show');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

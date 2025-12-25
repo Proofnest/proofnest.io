@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - ProofNest</title>
+    <meta name="description" content="ProofNest privacy policy. Learn how we handle your data.">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #030303;
+            --surface: #0a0a0a;
+            --gold: #EAB308;
+            --text: #fafafa;
+            --text-dim: #a3a3a3;
+            --text-muted: #737373;
+        }
+        body {
+            font-family: 'Space Grotesk', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        header {
+            margin-bottom: 48px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 24px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--gold); }
+        h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        .updated {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+        p, ul {
+            color: var(--text-dim);
+            margin-bottom: 16px;
+        }
+        ul {
+            padding-left: 24px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: var(--gold);
+        }
+        .highlight {
+            background: rgba(234, 179, 8, 0.1);
+            border-left: 3px solid var(--gold);
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .highlight p {
+            margin-bottom: 0;
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        footer a:hover { color: var(--text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to ProofNest
+            </a>
+            <h1>Privacy Policy</h1>
+            <p class="updated">Last updated: December 2025</p>
+        </header>
+
+        <section>
+            <h2>Overview</h2>
+            <p>ProofNest is an open-source Python library for verifiable AI decisions. This privacy policy explains how we handle data on proofnest.io.</p>
+
+            <div class="highlight">
+                <p><strong>TL;DR:</strong> We only collect analytics if you consent. The ProofNest library itself runs locally and doesn't send data anywhere.</p>
+            </div>
+
+            <h2>What We Collect</h2>
+            <p>If you accept cookies, we use Google Analytics 4 to understand:</p>
+            <ul>
+                <li>Which pages are visited</li>
+                <li>How visitors found us</li>
+                <li>General geographic region (country level)</li>
+                <li>Device type and browser</li>
+            </ul>
+            <p>We enable IP anonymization, so your full IP address is never stored.</p>
+
+            <h2>Third-Party Services</h2>
+            <p>This website uses:</p>
+            <ul>
+                <li><strong>Google Fonts</strong> - for typography (Space Grotesk, JetBrains Mono)</li>
+                <li><strong>Google Analytics 4</strong> - for anonymous usage statistics (only with your consent)</li>
+            </ul>
+
+            <h2>Cookies</h2>
+            <p>We use localStorage to remember your cookie preference. If you accept analytics cookies, Google Analytics sets its own cookies to track visits.</p>
+            <p>You can clear these at any time in your browser settings.</p>
+
+            <h2>The ProofNest Library</h2>
+            <p>The ProofNest Python package runs entirely on your machine. It does not:</p>
+            <ul>
+                <li>Send telemetry or usage data</li>
+                <li>Phone home to any server</li>
+                <li>Collect any personal information</li>
+            </ul>
+            <p>Bitcoin anchoring (via OpenTimestamps) is optional and only happens when you explicitly call the anchoring functions.</p>
+
+            <h2>Your Rights</h2>
+            <p>Under GDPR and similar regulations, you have the right to:</p>
+            <ul>
+                <li>Decline analytics cookies</li>
+                <li>Request deletion of any data we have</li>
+                <li>Access information about what we've collected</li>
+            </ul>
+
+            <h2>Contact</h2>
+            <p>For privacy-related inquiries:</p>
+            <p><a href="mailto:admin@stellanium.io">admin@stellanium.io</a></p>
+
+            <h2>Changes</h2>
+            <p>We may update this policy occasionally. Significant changes will be noted with an updated date at the top.</p>
+        </section>
+
+        <footer>
+            <a href="/">ProofNest</a> · <a href="https://stellanium.io" target="_blank" rel="noopener">Stellanium</a>
+        </footer>
+    </div>
+</body>
+</html>

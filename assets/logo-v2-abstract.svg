@@ -1,0 +1,62 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Abstract: Three interlocking arcs forming a dynamic nest -->
+
+  <!-- Arc 1 - Amber (top-left origin) -->
+  <path
+    d="M12 32 A20 20 0 0 1 32 12"
+    fill="none"
+    stroke="url(#grad1)"
+    stroke-width="6"
+    stroke-linecap="round"/>
+
+  <!-- Arc 2 - Emerald (top-right origin) -->
+  <path
+    d="M32 12 A20 20 0 0 1 52 32"
+    fill="none"
+    stroke="url(#grad2)"
+    stroke-width="6"
+    stroke-linecap="round"/>
+
+  <!-- Arc 3 - continuation bottom -->
+  <path
+    d="M52 32 A20 20 0 0 1 32 52"
+    fill="none"
+    stroke="url(#grad1)"
+    stroke-width="6"
+    stroke-linecap="round"/>
+
+  <!-- Arc 4 - closing -->
+  <path
+    d="M32 52 A20 20 0 0 1 12 32"
+    fill="none"
+    stroke="url(#grad2)"
+    stroke-width="6"
+    stroke-linecap="round"/>
+
+  <!-- Central proof mark -->
+  <circle cx="32" cy="32" r="8" fill="url(#grad3)"/>
+
+  <!-- Inner checkmark -->
+  <path
+    d="M28 32 L31 35 L37 29"
+    fill="none"
+    stroke="#fff"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+</svg>
