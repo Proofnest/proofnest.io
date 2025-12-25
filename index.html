@@ -1067,6 +1067,36 @@
             border-color: var(--gold);
         }
     </style>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "ProofNest",
+        "description": "Quantum-proof verification infrastructure for AI decisions. Bitcoin-anchored, tamper-evident audit trails.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Cross-platform",
+        "url": "https://proofnest.io",
+        "downloadUrl": "https://pypi.org/project/proofnest/",
+        "softwareVersion": "1.1.2",
+        "author": {
+            "@type": "Organization",
+            "name": "Stellanium Ltd",
+            "url": "https://stellanium.io"
+        },
+        "license": "https://opensource.org/licenses/MIT",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "sameAs": [
+            "https://github.com/Proofnest/proofnest",
+            "https://pypi.org/project/proofnest/"
+        ]
+    }
+    </script>
 </head>
 <body>
     <!-- Skip to content for accessibility -->
@@ -1074,7 +1104,7 @@
 
     <!-- Loader -->
     <div class="loader" id="loader">
-        <svg class="loader-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <svg class="loader-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ProofNest logo">
             <defs>
                 <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#EAB308"/>
@@ -1110,8 +1140,8 @@
 
     <!-- Nav -->
     <nav>
-        <a href="/" class="nav-logo">
-            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <a href="/" class="nav-logo" aria-label="ProofNest home">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                 <defs>
                     <linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#EAB308"/>
@@ -1137,7 +1167,7 @@
             <a href="https://github.com/Proofnest/proofnest#readme" class="nav-link" target="_blank" rel="noopener">Docs</a>
             <a href="https://github.com/Proofnest/proofnest" class="nav-link" target="_blank" rel="noopener">GitHub</a>
         </div>
-        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -1392,8 +1422,9 @@
         const menuToggle = document.getElementById('menuToggle');
         const mobileNav = document.getElementById('mobileNav');
         menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
+            const isActive = menuToggle.classList.toggle('active');
             mobileNav.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', isActive);
         });
 
         // Global mouse position (for cursor and particles)
@@ -1547,6 +1578,7 @@
                 // Close mobile menu
                 mobileNav.classList.remove('active');
                 menuToggle.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
             });
         });
 

@@ -1,0 +1,9 @@
+# ProofNest robots.txt
+# https://proofnest.io/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /assets/
+
+# Sitemap location
+Sitemap: https://proofnest.io/sitemap.xml
